@@ -4,7 +4,7 @@ import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
-  const { getCartItemsCount } = useCart();
+  const { getCartItemsCount, items, getCartTotal } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -24,19 +24,45 @@ const Navbar = () => {
         
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/products">Products</Link></li>
+          <li><Link to="/products">Featured Drinks</Link></li>
           <li><Link to="/special-offers">Special Offers</Link></li>
           <li><Link to="/blog">Blog</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/contact">Get In Touch</Link></li>
         </ul>
         
         <div className="nav-actions">
-          <Link to="/cart" className="cart-icon">
-            <ShoppingCart size={24} />
+          <div className="cart-dropdown">
+            <Link to="/cart" className="cart-icon">
+              <ShoppingCart size={24} />
+              {getCartItemsCount() > 0 && (
+                <span className="cart-count">{getCartItemsCount()}</span>
+              )}
+            </Link>
             {getCartItemsCount() > 0 && (
-              <span className="cart-count">{getCartItemsCount()}</span>
+              <button 
+                className="cart-buy-now"
+                onClick={() => {
+                  const phoneNumber = "254791260817";
+                  let message = "Hello! I would like to order the following items:\n\n";
+                  
+                  items.forEach(item => {
+                    message += `${item.name}\n`;
+                    message += `Quantity: ${item.quantity}\n`;
+                    message += `Price: $${item.price} each\n`;
+                    message += `Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+                  });
+                  
+                  message += `Total Amount: $${getCartTotal().toFixed(2)}\n\n`;
+                  message += "Please confirm availability and delivery details. Thank you!";
+                  
+                  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                  window.open(url, '_blank');
+                }}
+              >
+                Buy Now
+              </button>
             )}
-          </Link>
+          </div>
           
           <button 
             className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
@@ -58,18 +84,13 @@ const Navbar = () => {
       <div className={`mobile-nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
         <ul className="mobile-nav-links">
           <li><Link to="/" onClick={closeMobileMenu}>Home</Link></li>
-          <li><Link to="/products" onClick={closeMobileMenu}>Products</Link></li>
+          <li><Link to="/products" onClick={closeMobileMenu}>Featured Drinks</Link></li>
           <li><Link to="/special-offers" onClick={closeMobileMenu}>Special Offers</Link></li>
           <li><Link to="/blog" onClick={closeMobileMenu}>Blog</Link></li>
-          <li><Link to="/contact" onClick={closeMobileMenu}>Contact</Link></li>
+          <li><Link to="/contact" onClick={closeMobileMenu}>Get In Touch</Link></li>
         </ul>
         
-        <div className="mobile-cart-section">
-          <Link to="/cart" className="mobile-cart-icon" onClick={closeMobileMenu}>
-            <ShoppingCart size={20} />
-            <span>Cart ({getCartItemsCount()})</span>
-          </Link>
-        </div>
+
       </div>
     </nav>
   );

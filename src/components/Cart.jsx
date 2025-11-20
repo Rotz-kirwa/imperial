@@ -58,9 +58,9 @@ const Cart = () => {
       <div className="cart-total">
         <h2>Total: KSh {getCartTotal().toLocaleString()}</h2>
         <button 
-          className="checkout-button"
+          className="buy-now-btn"
           onClick={() => {
-            const phoneNumber = "254991260817";
+            const phoneNumber = "254791260817";
             let message = "Hello! I would like to order the following items:\n\n";
             
             items.forEach(item => {
@@ -77,7 +77,7 @@ const Cart = () => {
             window.open(url, '_blank');
           }}
         >
-          Proceed to Checkout
+          Buy Now via WhatsApp
         </button>
         <button 
           onClick={clearCart}

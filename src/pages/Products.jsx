@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
 const Products = () => {
-  const { addToCart } = useCart();
+  const { addToCart, items, updateQuantity } = useCart();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceFilter, setPriceFilter] = useState('all');
   const [brandFilter, setBrandFilter] = useState('all');
@@ -12,7 +12,8 @@ const Products = () => {
     { id: 'vodka', name: 'Vodka', image: 'https://i.pinimg.com/736x/cc/83/82/cc8382fc4c6a8cc4a29befb55bfee7f5.jpg' },
     { id: 'rum', name: 'Rum', image: 'https://i.pinimg.com/1200x/e4/c2/8a/e4c28a21b7b7038f4e05cb1b0e718039.jpg' },
     { id: 'wine', name: 'Wine', image: 'https://i.pinimg.com/736x/65/8a/4c/658a4c78604d68ce2dd84ecc6b4e42c3.jpg' },
-    { id: 'beer', name: 'Beer', image: 'https://i.pinimg.com/1200x/1c/39/01/1c39013280b0864ee8dd95eb46c044e8.jpg' }
+    { id: 'beer', name: 'Beer', image: 'https://i.pinimg.com/1200x/1c/39/01/1c39013280b0864ee8dd95eb46c044e8.jpg' },
+    { id: 'softdrinks', name: 'Soft Drinks' }
   ];
 
   const products = [
@@ -90,6 +91,19 @@ const Products = () => {
     { id: 70, name: 'White Cap Lager', category: 'beer', price: 270, brand: 'White Cap', image: 'https://i.pinimg.com/736x/1d/87/5d/1d875d81ac0437826ab5c15646eb85fe.jpg', description: 'Kenyan lager, smooth and refreshing' },
     { id: 71, name: 'Pilsner Malt', category: 'beer', price: 290, brand: 'Pilsner', image: 'https://i.pinimg.com/736x/98/07/c5/9807c574128e4fda86fd85cad306fca4.jpg', description: 'Kenyan pilsner, crisp and clean' },
 
+    // Soft Drinks Products
+    { id: 72, name: 'Coca Cola', category: 'softdrinks', price: 120, brand: 'Coca Cola', image: 'https://i.pinimg.com/736x/35/e8/6a/35e86afbc1b76a9dab4cb3215f3cb0d1.jpg', description: 'Classic cola, refreshing taste' },
+    { id: 73, name: 'Pepsi Cola', category: 'softdrinks', price: 110, brand: 'Pepsi', image: 'https://i.pinimg.com/1200x/14/2d/1a/142d1a892a2f6d62fbbb2672d272b2ff.jpg', description: 'Bold cola flavor, crisp and refreshing' },
+    { id: 74, name: 'Sprite', category: 'softdrinks', price: 100, brand: 'Sprite', image: 'https://i.pinimg.com/736x/63/a0/07/63a007b4941b619a04af00f86d7f379b.jpg', description: 'Lemon-lime soda, clear and crisp' },
+    { id: 75, name: 'Fanta Orange', category: 'softdrinks', price: 100, brand: 'Fanta', image: 'https://i.pinimg.com/736x/fe/06/db/fe06db007bf295afbfaf2874ba4dcf4e.jpg', description: 'Orange flavored soda, fruity and sweet' },
+    { id: 76, name: 'Mountain Dew', category: 'softdrinks', price: 130, brand: 'Mountain Dew', image: 'https://i.pinimg.com/1200x/0c/e4/a6/0ce4a694c065d9005150f822467ef573.jpg', description: 'Citrus soda with caffeine, energizing' },
+    { id: 77, name: 'Red Bull', category: 'softdrinks', price: 250, brand: 'Red Bull', image: 'https://i.pinimg.com/1200x/e7/b6/ab/e7b6ab528a44270c773cc53e18e4d9f6.jpg', description: 'Energy drink, gives you wings' },
+    { id: 78, name: 'Monster Energy', category: 'softdrinks', price: 280, brand: 'Monster', image: 'https://i.pinimg.com/736x/59/36/6f/59366f5aced1151a24d80a1c60d26d97.jpg', description: 'High caffeine energy drink, unleash the beast' },
+    { id: 79, name: 'Dasani Water', category: 'softdrinks', price: 80, brand: 'Dasani', image: 'https://i.pinimg.com/736x/e6/ae/e2/e6aee2e9db58e0a46cc1f90316ecd913.jpg', description: 'Purified water, clean and refreshing' },
+    { id: 80, name: 'Minute Maid', category: 'softdrinks', price: 150, brand: 'Minute Maid', image: 'https://i.pinimg.com/1200x/ed/92/3e/ed923e5a01f3685bd1e25e789c3bface.jpg', description: 'Fruit juice, natural and delicious' },
+    { id: 81, name: '7UP', category: 'softdrinks', price: 100, brand: '7UP', image: 'https://i.pinimg.com/736x/f8/84/ad/f884ad455d4324ddc2eb9c1f78a905c6.jpg', description: 'Lemon-lime soda, crisp and clean' },
+    { id: 82, name: 'Lemonade', category: 'softdrinks', price: 120, brand: 'Fresh', image: 'https://i.pinimg.com/736x/b9/b5/8e/b9b58e650966f44bbf652539a07f7bff.jpg', description: 'Fresh lemonade, tangy and refreshing' }
+
   ];
 
   const filteredProducts = products.filter(product => {
@@ -107,7 +121,7 @@ const Products = () => {
 
   return (
     <div className="products-container">
-      <h1>Our Products</h1>
+      <h1>Featured Drinks</h1>
       
       {/* Filters */}
       <div className="filters">
@@ -139,48 +153,16 @@ const Products = () => {
         <div 
           className={`category-card ${selectedCategory === 'all' ? 'active' : ''}`}
           onClick={() => setSelectedCategory('all')}
-          style={{
-            backgroundImage: 'url(https://i.pinimg.com/736x/ad/0d/6d/ad0d6d6e230801bce362fd962cfef590.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            position: 'relative'
-          }}
         >
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-            padding: '2rem 1rem 1rem',
-            borderRadius: '0 0 10px 10px'
-          }}>
-            <h3 style={{ color: 'white', margin: 0 }}>All Products</h3>
-          </div>
+          <h3>All Products</h3>
         </div>
         {categories.map(category => (
           <div 
             key={category.id}
             className={`category-card ${selectedCategory === category.id ? 'active' : ''}`}
             onClick={() => setSelectedCategory(category.id)}
-            style={{
-              backgroundImage: `url(${category.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              position: 'relative'
-            }}
           >
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-              padding: '2rem 1rem 1rem',
-              borderRadius: '0 0 10px 10px'
-            }}>
-              <h3 style={{ color: 'white', margin: 0 }}>{category.name}</h3>
-            </div>
+            <h3>{category.name}</h3>
           </div>
         ))}
       </div>
@@ -199,12 +181,25 @@ const Products = () => {
               <p>{product.description}</p>
               <p><strong>Brand:</strong> {product.brand}</p>
               <div className="product-price">KSh {product.price.toLocaleString()}</div>
-              <button 
-                className="add-to-cart"
-                onClick={() => addToCart(product)}
-              >
-                Add to Cart
-              </button>
+              <div className="product-actions">
+                <div className="quantity-controls">
+                  <button 
+                    className="quantity-btn"
+                    onClick={() => updateQuantity(product.id, (items.find(item => item.id === product.id)?.quantity || 0) - 1)}
+                  >
+                    -
+                  </button>
+                  <span className="quantity-display">
+                    {items.find(item => item.id === product.id)?.quantity || 0}
+                  </span>
+                  <button 
+                    className="quantity-btn"
+                    onClick={() => addToCart(product)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ))}
