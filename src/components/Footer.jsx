@@ -12,7 +12,7 @@ const Footer = () => {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <Phone size={16} />
-            <a href="tel:+254991260817" style={{ color: 'inherit', textDecoration: 'none' }}>0991 260 817</a>
+            <a href="tel:+254791260817" style={{ color: 'inherit', textDecoration: 'none' }}>0791260817</a>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Clock size={16} />
