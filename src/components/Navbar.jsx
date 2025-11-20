@@ -48,11 +48,11 @@ const Navbar = () => {
                   items.forEach(item => {
                     message += `${item.name}\n`;
                     message += `Quantity: ${item.quantity}\n`;
-                    message += `Price: $${item.price} each\n`;
-                    message += `Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+                    message += `Price: KSh ${item.price.toLocaleString()} each\n`;
+                    message += `Subtotal: KSh ${(item.price * item.quantity).toLocaleString()}\n\n`;
                   });
                   
-                  message += `Total Amount: $${getCartTotal().toFixed(2)}\n\n`;
+                  message += `Total Amount: KSh ${getCartTotal().toLocaleString()}\n\n`;
                   message += "Please confirm availability and delivery details. Thank you!";
                   
                   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
